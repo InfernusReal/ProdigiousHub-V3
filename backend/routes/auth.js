@@ -874,37 +874,13 @@ const axios = require('axios');
 const { getDiscordUser, addUserToServer } = require('../services/discord');
 
 // Discord OAuth - Start authentication
-router.get('/discord', async (req, res) => {
-  try {
-    let userId;
-    
-    // Try to get user ID from token (either from header or query param)
-    const token = req.headers.authorization?.replace('Bearer ', '') || req.query.token;
-    
-    if (token) {
-      // Verify token and get user ID
-      const jwt = require('jsonwebtoken');
-      try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        userId = decoded.userId;
-      } catch (error) {
-        return res.status(401).json({ success: false, message: 'Invalid token' });
-      }
-    } else {
-      return res.status(401).json({ success: false, message: 'Access token required' });
-    }
-
-    const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.DISCORD_REDIRECT_URI)}&response_type=code&scope=identify%20guilds.join`;
-    
-    // Store user ID and return URL in session/state for callback
-    const returnUrl = req.query.returnUrl || '/dashboard';
-    const state = Buffer.from(JSON.stringify({ userId, returnUrl })).toString('base64');
-    
-    res.redirect(`${discordAuthUrl}&state=${state}`);
-  } catch (error) {
-    console.error('Discord OAuth start error:', error);
-    res.status(500).json({ success: false, message: 'Internal server error' });
-  }
+router.get('/discord', authenticateToken, (req, res) => {
+  const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.DISCORD_REDIRECT_URI)}&response_type=code&scope=identify%20guilds.join`;
+  
+  // Store user ID in session/state for callback
+  const state = Buffer.from(JSON.stringify({ userId: req.user.id })).toString('base64');
+  
+  res.redirect(`${discordAuthUrl}&state=${state}`);
 });
 
 // Discord OAuth - Handle callback
@@ -916,12 +892,11 @@ router.get('/discord/callback', async (req, res) => {
       return res.status(400).json({ error: 'No authorization code provided' });
     }
 
-    // Decode state to get user ID and return URL
-    let userId, returnUrl;
+    // Decode state to get user ID
+    let userId;
     try {
       const decodedState = JSON.parse(Buffer.from(state, 'base64').toString());
       userId = decodedState.userId;
-      returnUrl = decodedState.returnUrl || '/dashboard';
     } catch (error) {
       return res.status(400).json({ error: 'Invalid state parameter' });
     }
@@ -963,12 +938,12 @@ router.get('/discord/callback', async (req, res) => {
 
     console.log(`✅ Linked Discord account for user ${userId}: ${discordUser.username}`);
 
-    // Redirect back to frontend with success, preserving the return URL
-    res.redirect(`${process.env.FRONTEND_URL}${returnUrl}?discord=success`);
+    // Redirect back to frontend with success
+    res.redirect(`${process.env.FRONTEND_URL}/dashboard?discord=success`);
 
   } catch (error) {
     console.error('Discord OAuth error:', error);
-    res.redirect(`${process.env.FRONTEND_URL}${returnUrl || '/dashboard'}?discord=error`);
+    res.redirect(`${process.env.FRONTEND_URL}/dashboard?discord=error`);
   }
 });
 

@@ -14,7 +14,7 @@ const clearDatabase = async () => {
       host: process.env.DB_HOST || 'localhost',
       port: parseInt(process.env.DB_PORT) || 3001,
       user: process.env.DB_USER || 'root',
-      password: process.env.DB_PASSWORD || '',
+      password: process.env.DB_PASSWORD || 'F4D1BD8Bs@1234',
       database: process.env.DB_NAME || 'ProdigiousHub'
     });
 

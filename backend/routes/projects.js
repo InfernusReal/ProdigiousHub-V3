@@ -5,7 +5,7 @@ const { authenticateToken: auth } = require('../middleware/auth');
 const { body, validationResult } = require('express-validator');
 const { updateUserLevel, getXPLimitsForDifficulty } = require('../utils/leveling');
 const { createNotification } = require('./notifications');
-const { setupProjectDiscordIntegration, addUserToProjectRole, handleProjectCompletion } = require('../services/discord');
+const { setupProjectDiscordIntegration, addUserToProjectRole } = require('../services/discord');
 const multer = require('multer');
 const path = require('path');
 
@@ -767,14 +767,11 @@ router.post('/:slug/join', auth, async (req, res) => {
 
     // Check if project exists and is open
     const [projects] = await pool.query(`
-      SELECT p.*, 
-             creator.discord_id as creator_discord_id,
-             user.discord_id as user_discord_id
+      SELECT p.*, u.discord_id as user_discord_id 
       FROM projects p
-      LEFT JOIN users creator ON p.creator_id = creator.id
-      LEFT JOIN users user ON user.id = ?
-      WHERE p.id = ? AND p.status = 'open'
-    `, [req.user.id, projectId]);
+      CROSS JOIN users u
+      WHERE p.id = ? AND p.status = 'open' AND u.id = ?
+    `, [projectId, req.user.id]);
 
     if (projects.length === 0) {
       return res.status(404).json({
@@ -857,18 +854,6 @@ router.post('/:slug/join', auth, async (req, res) => {
       try {
         await addUserToProjectRole(project.user_discord_id, project.discord_role_id);
         console.log(`✅ Added user ${req.user.username} to Discord role for project ${project.title}`);
-        
-        // If there's a project channel, send a welcome message
-        if (project.discord_channel_id) {
-          const { sendProjectWelcomeMessage } = require('../services/discord');
-          await sendProjectWelcomeMessage(project.discord_channel_id, {
-            username: req.user.display_name || req.user.username,
-            project_title: project.title,
-            project_description: project.description,
-            project_slug: project.slug,
-            discord_user_id: project.user_discord_id
-          });
-        }
       } catch (discordError) {
         console.error('Error adding user to Discord role:', discordError);
         // Don't fail the request if Discord fails
@@ -1006,12 +991,9 @@ router.post('/:slug/complete', auth, async (req, res) => {
       [project.id]
     );
 
-    // Get all participants with Discord info
+    // Get all participants
     const [participants] = await pool.query(`
-      SELECT pp.user_id, u.username, u.discord_id, u.discord_username
-      FROM project_participants pp
-      LEFT JOIN users u ON pp.user_id = u.id
-      WHERE pp.project_id = ?
+      SELECT user_id FROM project_participants WHERE project_id = ?
     `, [project.id]);
 
     // Create list of all users who should get XP (participants + creator)
@@ -1019,14 +1001,7 @@ router.post('/:slug/complete', auth, async (req, res) => {
     // Add creator if not already in participants
     const creatorAlreadyParticipant = participants.some(p => p.user_id === project.creator_id);
     if (!creatorAlreadyParticipant) {
-      // Get creator info
-      const [creatorInfo] = await pool.query(`
-        SELECT id as user_id, username, discord_id, discord_username
-        FROM users WHERE id = ?
-      `, [project.creator_id]);
-      if (creatorInfo.length > 0) {
-        allUsers.push(creatorInfo[0]);
-      }
+      allUsers.push({ user_id: project.creator_id });
     }
 
     // Award XP to all participants and creator
@@ -1064,27 +1039,6 @@ router.post('/:slug/complete', auth, async (req, res) => {
         
       } catch (error) {
         console.error(`Error awarding XP to user ${user.user_id}:`, error);
-      }
-    }
-
-    // Handle Discord completion if project has Discord integration
-    if (project.discord_channel_id && project.discord_role_id) {
-      try {
-        await handleProjectCompletion(
-          project.discord_channel_id,
-          project.discord_role_id,
-          {
-            project_title: project.title,
-            project_description: project.description,
-            xp_reward: project.xp_reward,
-            project_slug: project.slug
-          },
-          allUsers
-        );
-        console.log(`🎉 Sent completion notification and scheduled cleanup for project: ${project.title}`);
-      } catch (discordError) {
-        console.error('Error handling Discord completion:', discordError);
-        // Don't fail the completion if Discord fails
       }
     }
 

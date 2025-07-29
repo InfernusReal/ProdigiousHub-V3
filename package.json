@@ -1,33 +1,4 @@
 {
-  "name": "prodigioushub-monorepo",
-  "version": "1.0.0",
-  "description": "ProdigiousHub - Discord-Integrated SaaS Platform (Full Stack)",
-  "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
-  "scripts": {
-    "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\"",
-    "build": "npm run build --workspace=frontend",
-    "start:frontend": "npm run dev --workspace=frontend",
-    "start:backend": "npm run dev --workspace=backend",
-    "install:all": "npm install && npm install --workspace=frontend && npm install --workspace=backend"
-  },
-  "keywords": [
-    "monorepo",
-    "react",
-    "nodejs",
-    "discord",
-    "saas",
-    "amplify",
-    "aws"
-  ],
-  "author": "ProdigiousHub Team",
-  "license": "MIT",
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  },
   "dependencies": {
     "cors": "^2.8.5",
     "cronjob": "^0.1.0",

@@ -8,7 +8,7 @@ async function clearDB() {
     host: 'localhost',
     port: 3001,
     user: 'root',
-    password: process.env.DB_PASSWORD || '',
+    password: 'F4D1BD8Bs@1234',
     database: 'ProdigiousHub'
   });
   
