@@ -1,0 +1,205 @@
+/* Basic CSS Reset for Tailwind CDN */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Global Custom Scrollbar - Applied to all scrollable elements */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #7c3aed #1e293b;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 6px;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+  border-radius: 6px;
+  border: 2px solid #1e293b;
+  box-shadow: 
+    inset 0 0 6px rgba(139, 92, 246, 0.3),
+    0 0 8px rgba(124, 58, 237, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 50%, #7c3aed 100%);
+  box-shadow: 
+    inset 0 0 8px rgba(139, 92, 246, 0.5),
+    0 0 12px rgba(124, 58, 237, 0.4),
+    0 0 20px rgba(139, 92, 246, 0.2);
+  transform: scale(1.05);
+  border-color: #3730a3;
+}
+
+*::-webkit-scrollbar-corner {
+  background: #1e293b;
+  border-radius: 6px;
+}
+
+/* Custom dropdown styling */
+.custom-select {
+  position: relative;
+}
+
+.custom-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.custom-select select option {
+  background-color: #1f2937 !important;
+  color: white !important;
+  padding: 8px 16px !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.custom-select select option:hover {
+  background-color: #7c3aed !important;
+  color: white !important;
+}
+
+.custom-select select option:checked {
+  background-color: #7c3aed !important;
+  color: white !important;
+}
+
+/* Webkit specific styling for dropdowns */
+.custom-select select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-select select::-webkit-scrollbar-track {
+  background: #1f2937;
+  border-radius: 4px;
+}
+
+.custom-select select::-webkit-scrollbar-thumb {
+  background: #7c3aed;
+  border-radius: 4px;
+}
+
+.custom-select select::-webkit-scrollbar-thumb:hover {
+  background: #8b5cf6;
+}
+
+/* Sexy Custom Scrollbar for Modal */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #7c3aed #1e293b;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 6px;
+  margin: 8px 0;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+  border-radius: 6px;
+  border: 2px solid #1e293b;
+  box-shadow: 
+    inset 0 0 6px rgba(139, 92, 246, 0.3),
+    0 0 8px rgba(124, 58, 237, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 50%, #7c3aed 100%);
+  box-shadow: 
+    inset 0 0 8px rgba(139, 92, 246, 0.5),
+    0 0 12px rgba(124, 58, 237, 0.4),
+    0 0 20px rgba(139, 92, 246, 0.2);
+  transform: scale(1.05);
+  border-color: #3730a3;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #c4b5fd 0%, #a78bfa 50%, #8b5cf6 100%);
+  box-shadow: 
+    inset 0 0 10px rgba(139, 92, 246, 0.7),
+    0 0 16px rgba(124, 58, 237, 0.6),
+    0 0 24px rgba(139, 92, 246, 0.3);
+  transform: scale(1.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: #1e293b;
+  border-radius: 6px;
+}
+
+/* Add pulse effect when scrolling */
+@keyframes scrollPulse {
+  0% { 
+    box-shadow: 
+      inset 0 0 6px rgba(139, 92, 246, 0.3),
+      0 0 8px rgba(124, 58, 237, 0.2);
+  }
+  50% { 
+    box-shadow: 
+      inset 0 0 12px rgba(139, 92, 246, 0.6),
+      0 0 16px rgba(124, 58, 237, 0.4),
+      0 0 24px rgba(139, 92, 246, 0.2);
+  }
+  100% { 
+    box-shadow: 
+      inset 0 0 6px rgba(139, 92, 246, 0.3),
+      0 0 8px rgba(124, 58, 237, 0.2);
+  }
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  animation: scrollPulse 2s infinite ease-in-out;
+}
+
+/* Scrollbar track hover effects */
+.custom-scrollbar:hover::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #334155 0%, #1e293b 50%, #0f172a 100%);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Firefox specific styling */
+@-moz-document url-prefix() {
+  .custom-select select option {
+    background-color: #1f2937 !important;
+    color: white !important;
+  }
+  
+  .custom-select select option:hover {
+    background-color: #7c3aed !important;
+  }
+  
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #7c3aed #1e293b;
+  }
+}
