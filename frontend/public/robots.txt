@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://prodigioushub.com/sitemap.xml
+
+# Disallow admin or sensitive routes
+Disallow: /admin/
+Disallow: /api/
+Disallow: /verify-email
+Disallow: /reset-password
+
+# Allow important pages
+Allow: /
+Allow: /login
+Allow: /signup
+Allow: /dashboard
+Allow: /projects
+Allow: /profile
+
+# Crawl delay (optional)
+Crawl-delay: 1

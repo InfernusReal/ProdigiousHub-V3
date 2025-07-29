@@ -1,0 +1,53 @@
+{
+  "name": "ProdigiousHub - Gamified Project Collaboration",
+  "short_name": "ProdigiousHub",
+  "description": "Gamified project collaboration platform for developers with Discord integration",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7c3aed",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Logo-removebg.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/Logo-removebg.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "developer", "collaboration"],
+  "lang": "en",
+  "scope": "/",
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Go to your dashboard",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "/home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "short_name": "Projects",
+      "description": "View your projects",
+      "url": "/projects",
+      "icons": [
+        {
+          "src": "/dynamic_feed_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}
