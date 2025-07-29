@@ -5,7 +5,7 @@ const { authenticateToken: auth } = require('../middleware/auth');
 const { body, validationResult } = require('express-validator');
 const { updateUserLevel, getXPLimitsForDifficulty } = require('../utils/leveling');
 const { createNotification } = require('./notifications');
-const { setupProjectDiscordIntegration, addUserToProjectRole } = require('../services/discord');
+const { setupProjectDiscordIntegration, addUserToProjectRole, scheduleChannelCleanup } = require('../services/discord');
 const multer = require('multer');
 const path = require('path');
 
@@ -731,6 +731,12 @@ router.post('/:slug/setup-discord', auth, async (req, res) => {
       SET discord_channel_id = ?, discord_role_id = ?
       WHERE id = ?
     `, [discordResult.channelId, discordResult.roleId, projectId]);
+
+    // Schedule cleanup if only creator is participating (5 minutes)
+    if (discordParticipants.length <= 1) {
+      console.log(`⏰ Only creator in project - scheduling cleanup in 5 minutes for channel ${discordResult.channelId}`);
+      scheduleChannelCleanup(discordResult.channelId, discordResult.roleId, 5);
+    }
 
     res.json({
       success: true,

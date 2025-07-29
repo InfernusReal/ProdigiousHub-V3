@@ -219,6 +219,76 @@ const setupProjectDiscordIntegration = async (projectData, participants) => {
   }
 };
 
+// Cleanup functions for temporary channels/roles
+const scheduleChannelCleanup = (channelId, roleId, delayMinutes = 5) => {
+  console.log(`⏰ Scheduling cleanup for channel ${channelId} and role ${roleId} in ${delayMinutes} minutes`);
+  
+  setTimeout(async () => {
+    try {
+      await cleanupProjectResources(channelId, roleId);
+    } catch (error) {
+      console.error('Error during scheduled cleanup:', error);
+    }
+  }, delayMinutes * 60 * 1000); // Convert minutes to milliseconds
+};
+
+const cleanupProjectResources = async (channelId, roleId) => {
+  try {
+    const guild = client.guilds.cache.get(process.env.DISCORD_GUILD_ID);
+    if (!guild) {
+      console.error('Guild not found for cleanup');
+      return;
+    }
+
+    // Delete channel
+    if (channelId) {
+      try {
+        const channel = guild.channels.cache.get(channelId);
+        if (channel) {
+          await channel.delete('Project cleanup - no participants after 5 minutes');
+          console.log(`🗑️ Deleted channel: ${channel.name}`);
+        }
+      } catch (error) {
+        console.error('Error deleting channel:', error);
+      }
+    }
+
+    // Delete role
+    if (roleId) {
+      try {
+        const role = guild.roles.cache.get(roleId);
+        if (role) {
+          await role.delete('Project cleanup - no participants after 5 minutes');
+          console.log(`🗑️ Deleted role: ${role.name}`);
+        }
+      } catch (error) {
+        console.error('Error deleting role:', error);
+      }
+    }
+
+    console.log('✅ Project resources cleanup completed');
+  } catch (error) {
+    console.error('Error cleaning up project resources:', error);
+  }
+};
+
+// Check if project has real participants (not just creator)
+const checkProjectParticipants = async (projectId) => {
+  const { pool } = require('../db');
+  
+  try {
+    const [participants] = await pool.execute(`
+      SELECT COUNT(*) as count FROM project_participants 
+      WHERE project_id = ? AND role != 'creator'
+    `, [projectId]);
+    
+    return participants[0].count > 0;
+  } catch (error) {
+    console.error('Error checking project participants:', error);
+    return false;
+  }
+};
+
 module.exports = {
   client,
   initializeDiscordBot,
@@ -228,5 +298,8 @@ module.exports = {
   createProjectChannel,
   addUserToProjectRole,
   sendProjectInfoToChannel,
-  setupProjectDiscordIntegration
+  setupProjectDiscordIntegration,
+  scheduleChannelCleanup,
+  cleanupProjectResources,
+  checkProjectParticipants
 };
