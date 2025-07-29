@@ -41,7 +41,7 @@ const HomePage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="min-h-screen bg-white"
+        className="min-h-screen bg-black"
       >
         <Hero />
         <Features />

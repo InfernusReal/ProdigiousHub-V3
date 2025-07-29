@@ -7,25 +7,25 @@ const Features = () => {
       icon: "🎮",
       title: "Gamified Experience",
       description: "Earn XP, unlock achievements, and climb leaderboards as you complete projects and collaborate with your team.",
-      color: "from-purple-500 to-pink-500"
+      color: "from-white to-gray-300"
     },
     {
       icon: "🚀",
       title: "Live Project Feed",
       description: "Discover new projects in real-time, join teams instantly, and start collaborating within minutes.",
-      color: "from-blue-500 to-cyan-500"
+      color: "from-gray-800 to-black"
     },
     {
       icon: "💬",
       title: "Discord Integration",
       description: "Automatic Discord channel creation for each project with seamless team communication and file sharing.",
-      color: "from-green-500 to-emerald-500"
+      color: "from-white to-gray-200"
     },
     {
       icon: "📊",
       title: "Performance Dashboard",
       description: "Track your progress, analyze team performance, and showcase your project portfolio with detailed analytics.",
-      color: "from-orange-500 to-red-500"
+      color: "from-black to-gray-700"
     },
     {
       icon: "🏆",
@@ -42,7 +42,7 @@ const Features = () => {
   ];
 
   return (
-    <section id="features" className="py-20 bg-slate-50">
+    <section id="features" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -51,11 +51,11 @@ const Features = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+          <h2 className="text-4xl lg:text-5xl font-bold text-black mb-6">
             Everything you need to
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> level up</span>
+            <span className="text-gray-600"> level up</span>
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Transform your project collaboration with gamification, real-time feeds, and seamless Discord integration.
           </p>
         </motion.div>
@@ -69,15 +69,15 @@ const Features = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
-              className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-lg transition-all duration-300"
+              className="bg-gray-50 rounded-2xl p-8 shadow-sm border-2 border-black hover:shadow-lg transition-all duration-300 hover:border-gray-700"
             >
-              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center text-2xl mb-6`}>
+              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center text-2xl mb-6 border-2 border-black`}>
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-4">
+              <h3 className="text-xl font-semibold text-black mb-4">
                 {feature.title}
               </h3>
-              <p className="text-slate-600 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 {feature.description}
               </p>
             </motion.div>
