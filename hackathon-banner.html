@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProdigiousHub - Hackathon Banner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .glow {
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            }
+            to {
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
+            }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body class="bg-black overflow-hidden">
+    <!-- Banner Container (16:9 ratio for thumbnail) -->
+    <div class="w-screen h-screen bg-black relative grid-pattern flex items-center justify-center">
+        
+        <!-- Background Elements -->
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Geometric shapes -->
+            <div class="absolute top-1/4 left-1/4 w-32 h-32 border-2 border-white/20 rounded-full"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-48 h-48 border border-white/10 rounded-full"></div>
+            <div class="absolute top-1/2 right-1/3 w-24 h-24 border border-white/15 rounded-lg rotate-45"></div>
+            
+            <!-- Floating code symbols -->
+            <div class="absolute top-20 left-20 text-white/30 text-2xl floating">&lt;/&gt;</div>
+            <div class="absolute bottom-20 right-20 text-white/30 text-3xl floating" style="animation-delay: 1s;">{ }</div>
+            <div class="absolute top-32 right-32 text-white/30 text-xl floating" style="animation-delay: 2s;">[]</div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="relative z-10 text-center max-w-6xl mx-auto px-8">
+            
+            <!-- Logo Section -->
+            <div class="mb-8 flex justify-center">
+                <div class="w-24 h-24 bg-white rounded-2xl flex items-center justify-center pulse-glow">
+                    <span class="text-black text-4xl font-bold">PH</span>
+                </div>
+            </div>
+            
+            <!-- Main Title -->
+            <h1 class="text-7xl lg:text-8xl font-black text-white mb-6 leading-tight">
+                Prodigious<span class="text-gray-400">Hub</span>
+            </h1>
+            
+            <!-- Subtitle -->
+            <p class="text-2xl lg:text-3xl text-gray-300 mb-8 font-medium">
+                Gamified Project Collaboration Platform
+            </p>
+            
+            <!-- Feature Tags -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <span class="px-6 py-3 bg-white/10 border border-white/30 rounded-full text-white font-semibold backdrop-blur-sm">
+                    🎮 XP & Leveling System
+                </span>
+                <span class="px-6 py-3 bg-white/10 border border-white/30 rounded-full text-white font-semibold backdrop-blur-sm">
+                    💬 Discord Integration
+                </span>
+                <span class="px-6 py-3 bg-white/10 border border-white/30 rounded-full text-white font-semibold backdrop-blur-sm">
+                    🚀 Real-time Collaboration
+                </span>
+                <span class="px-6 py-3 bg-white/10 border border-white/30 rounded-full text-white font-semibold backdrop-blur-sm">
+                    📊 Analytics Dashboard
+                </span>
+            </div>
+            
+            <!-- Call to Action -->
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <button class="px-8 py-4 bg-white text-black text-xl font-bold rounded-lg hover:bg-gray-100 transition-all hover:scale-105 glow">
+                    Join the Hub
+                </button>
+                <button class="px-8 py-4 border-2 border-white text-white text-xl font-bold rounded-lg hover:bg-white hover:text-black transition-all">
+                    Watch Demo
+                </button>
+            </div>
+            
+        </div>
+        
+        <!-- Bottom Banner -->
+        <div class="absolute bottom-8 left-0 right-0">
+            <div class="text-center">
+                <p class="text-white/70 text-lg font-semibold">
+                    🏆 Hackathon Project 2025 | Built with React + Node.js + Discord.js
+                </p>
+            </div>
+        </div>
+        
+        <!-- Corner Branding -->
+        <div class="absolute top-8 right-8 text-white/50 text-sm font-medium">
+            v1.0.0
+        </div>
+        
+    </div>
+</body>
+</html>
